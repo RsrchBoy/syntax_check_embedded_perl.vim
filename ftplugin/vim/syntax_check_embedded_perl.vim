@@ -35,15 +35,22 @@ augroup END
 " Implementation {{{1
 
 function! s:RunSyntaxCheckScript() "{{{2
+  " Not perfect, but this should work with junegunn/vim-plug at least.
+  if exists('g:plug_home')
+      let scriptie_home = g:plug_home . '/syntax_check_embedded_perl.vim'
+  else
+      let scriptie_home = '~/.vim'
+  endif
+
   execute
-        \ ':!~/.vim/syntax_check_embedded_perl.perl ' .
+        \ ':!' . scriptie_home . '/syntax_check_embedded_perl.perl ' .
         \   expand("%:p") . ' ' .
         \   eval("s:syntaxcheckembeddedperl_tfn")
 endfunction
 
 if has('perl')
 perl <<EOF
-# line 47 "~/work/vim/syntax_check_embedded_perl.vim/ftplugin/vim/syntax_check_embedded_perl.vim"
+# line 54 "~/work/vim/syntax_check_embedded_perl.vim/ftplugin/vim/syntax_check_embedded_perl.vim"
 
 package Syntaxcheckembeddedperl;
 
