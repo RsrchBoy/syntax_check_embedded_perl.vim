@@ -31,8 +31,6 @@ autocmd BufWritePost *.vim,*.vimrc :call s:RunSyntaxCheckScript()
 " Implementation {{{1
 
 function! s:RunSyntaxCheckScript() "{{{2
-  " Because vimballs don't preserve the executable flag:
-  silent !chmod u+x ~/.vim/syntax_check_embedded_perl.perl
   execute
         \ ':!~/.vim/syntax_check_embedded_perl.perl ' .
         \   expand("%:p") . ' ' .
@@ -41,7 +39,7 @@ endfunction
 
 if has('perl')
 perl <<EOF
-# line 45 "~/projects/libblk/vim/syntax_check_embedded_perl/syntax_check_embedded_perl.vim"
+# line 43 "~/work/vim/syntax_check_embedded_perl.vim/ftplugin/vim/syntax_check_embedded_perl.vim"
 
 package Syntaxcheckembeddedperl;
 
