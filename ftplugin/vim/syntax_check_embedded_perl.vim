@@ -17,16 +17,20 @@ let loaded_syntax_check_embedded_perl = 1
 
 " Interface {{{1
 
-autocmd BufWritePre *.vim,*.vimrc :perl Syntaxcheckembeddedperl::backup_perl
+augroup embedded_perl_syntax_check
+    au!
 
-" It would be somewhat cute to use silent in this autocommand so saving would
-" appear to work normally if the syntax check worked.  But that raises the
-" question of what is normal: after all, the user has to press enter if they
-" have syntax errors.  And since it seems that somehow the version of the
-" error message that contains the line number somehow isn't ending up in the
-" generated vim error but in a message immediately following it, we don't try
-" to do this.
-autocmd BufWritePost *.vim,*.vimrc :call s:RunSyntaxCheckScript()
+    autocmd BufWritePre *.vim,*.vimrc :perl Syntaxcheckembeddedperl::backup_perl
+
+    " It would be somewhat cute to use silent in this autocommand so saving would
+    " appear to work normally if the syntax check worked.  But that raises the
+    " question of what is normal: after all, the user has to press enter if they
+    " have syntax errors.  And since it seems that somehow the version of the
+    " error message that contains the line number somehow isn't ending up in the
+    " generated vim error but in a message immediately following it, we don't try
+    " to do this.
+    autocmd BufWritePost *.vim,*.vimrc :call s:RunSyntaxCheckScript()
+augroup END
 
 " Implementation {{{1
 
@@ -39,13 +43,13 @@ endfunction
 
 if has('perl')
 perl <<EOF
-# line 43 "~/work/vim/syntax_check_embedded_perl.vim/ftplugin/vim/syntax_check_embedded_perl.vim"
+# line 47 "~/work/vim/syntax_check_embedded_perl.vim/ftplugin/vim/syntax_check_embedded_perl.vim"
 
 package Syntaxcheckembeddedperl;
 
 use strict;
 use warnings FATAL => 'all';
-use warnings NONFATAL => 'redefine';
+no warnings 'redefine';
 
 use File::Temp qw( tempfile );
 
